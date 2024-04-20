@@ -1,0 +1,62 @@
+.loginform {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  margin-left: 20px;
+}
+
+.input_container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  font-size: 16px;
+  transition: border-bottom-color 0.3s ease;
+  background-color: #f9f9f9; /* Match background color of form */
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: #0066ff;
+}
+
+.label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 16px;
+  color: #919191;
+  transition: top 0.3s, font-size 0.3s;
+}
+
+.input:focus + .label {
+  top: -15px;
+  font-size: 12px;
+  color: #919191;
+}
+.input:not(:focus):not(:placeholder-shown) + .label {
+  top: 10px; /* Return to original position */
+  font-size: 16px; /* Return to original font size */
+  color: #919191; /* Return to original color */
+}
+.submit_button {
+  background-color: #cccccc;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit_button:hover {
+  background-color: #9f9d9d;
+}

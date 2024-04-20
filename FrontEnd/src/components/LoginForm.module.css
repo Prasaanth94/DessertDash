@@ -33,19 +33,14 @@
   left: 10px;
   font-size: 16px;
   color: #919191;
-  transition: top 0.3s, font-size 0.3s;
+  transition: font-size 0.3s; /* Transition only font-size when focused */
 }
 
 .input:focus + .label {
   top: -15px;
   font-size: 12px;
-  color: #919191;
 }
-.input:not(:focus):not(:placeholder-shown) + .label {
-  top: 10px; /* Return to original position */
-  font-size: 16px; /* Return to original font size */
-  color: #919191; /* Return to original color */
-}
+
 .submit_button {
   background-color: #cccccc;
   color: #fff;
@@ -59,4 +54,60 @@
 
 .submit_button:hover {
   background-color: #9f9d9d;
+}
+
+.lds_ripple {
+  /* change color here */
+  color: #9f9d9d;
+}
+
+.lds_ripple,
+.lds_ripple div {
+  box-sizing: border-box;
+}
+.lds_ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds_ripple div {
+  position: absolute;
+  border: 4px solid currentColor;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds_ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+  }
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+  }
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 8px;
+    height: 8px;
+    opacity: 1;
+  }
+  100% {
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+  }
 }

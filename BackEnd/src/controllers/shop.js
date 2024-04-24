@@ -37,4 +37,19 @@ const createShop = async (req, res) => {
   }
 };
 
-module.exports = createShop;
+const getShop = async (req, res) => {
+  const { shop_id } = req.body;
+
+  try {
+    const pool = await connectDB();
+
+    const getShopQuery = `SELECT * FROM shop where id = $1`;
+    const shop = await pool.query(getShopQuery, [shop_id]);
+    res.status(200).json({ message: "succes", shop: shop.rows[0] });
+  } catch (error) {
+    console.error("Cant get shop: ", error);
+    res.status(400).json({ status: "errro", msg: "Internal Server Error" });
+  }
+};
+
+module.exports = { createShop, getShop };

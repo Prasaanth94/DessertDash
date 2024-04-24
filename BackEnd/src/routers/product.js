@@ -2,6 +2,7 @@ const express = require("express");
 const {
   addProduct,
   toggleProductAvailability,
+  deleteProduct,
 } = require("../controllers/product");
 const { authBusinessOwner } = require("../middleware/auth");
 
@@ -13,5 +14,7 @@ router.patch(
   authBusinessOwner,
   toggleProductAvailability
 );
+
+router.delete("/deleteProduct", authBusinessOwner, deleteProduct);
 
 module.exports = router;

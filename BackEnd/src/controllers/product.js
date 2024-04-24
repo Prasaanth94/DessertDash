@@ -39,7 +39,6 @@ const toggleProductAvailability = async (req, res) => {
 
     const toggleAvailabilityQuery = `UPDATE product SET availability = CASE WHEN availability = true THEN false ELSE true END WHERE id =$1`;
     await pool.query(toggleAvailabilityQuery, [product_id]);
-    console.log(product_id);
     res.status(200).json({ message: "Status updated" });
   } catch (error) {
     console.error(error);
@@ -47,4 +46,19 @@ const toggleProductAvailability = async (req, res) => {
   }
 };
 
-module.exports = { addProduct, toggleProductAvailability };
+const deleteProduct = async (req, res) => {
+  const { product_id } = req.body;
+
+  try {
+    const pool = await connectDB();
+
+    const deleteProduct = `DELETE FROM product where id=$1`;
+    await pool.query(deleteProduct, [product_id]);
+    res.status(200).json({ message: "Succesfully Deleted Product" });
+  } catch (error) {
+    console.error("Error Deleting product: ", error);
+    res.status(400).json({ status: "error", msg: "internal server errro" });
+  }
+};
+
+module.exports = { addProduct, toggleProductAvailability, deleteProduct };

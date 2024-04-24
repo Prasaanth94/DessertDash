@@ -6,10 +6,8 @@ const authBusinessOwner = async (req, res, next) => {
     return res.status(400).json({ status: "error", msg: "no token found" });
   }
 
-  console.log(req.headers);
-
   const token = req.headers["authorization"].replace("Bearer", "").trim();
-  console.log("Token :", token);
+
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.ACCESS_SECRET);

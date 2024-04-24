@@ -1,22 +1,29 @@
 import React, { useRef, useState } from "react";
 import styles from "./LoginForm.module.css";
+import useFetch from "../hooks/useFetch";
 
 const RegisterForm = () => {
   const emailRef = useRef();
   const userNameRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
+  const roleRef = useRef();
   const [error, setError] = useState("");
+  const [accountCreated, setAccountCreated] = useState(false);
   const [allFields, setAllFields] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [isLoading, setIsloading] = useState(false);
+  const fetchData = useFetch();
 
-  const register = () => {
+  const register = async (req, res) => {
     event.preventDefault();
     setPasswordMatch(false);
     const userEmailCheck = emailRef.current?.value;
     const passwordCheck = passwordRef.current?.value;
     const passwordConfirmCheck = passwordConfirmRef.current?.value;
+    setIsloading(true);
+    setPasswordMatch(false);
+    setError("");
 
     if (!userEmailCheck || !passwordCheck || !passwordConfirmCheck) {
       setAllFields(true);
@@ -30,9 +37,24 @@ const RegisterForm = () => {
     }
 
     try {
-      setIsloading(true);
+      const res = await fetchData("/auth/register", "PUT", {
+        email: emailRef.current.value,
+        HASH: passwordRef.current.value,
+        username: userNameRef.current.value,
+        role: roleRef.current.value,
+      });
+
+      if (res.ok) {
+        setIsloading(false);
+        setAllFields(false);
+        setAccountCreated(true);
+      } else {
+        setIsloading(false);
+        setError(JSON.stringify(res.data));
+        console.log(error);
+      }
     } catch (error) {
-      console.log(error);
+      console.log("Error registering", error);
     }
   };
   return (
@@ -87,6 +109,14 @@ const RegisterForm = () => {
           </label>
         </div>
 
+        <div className={styles.role}>
+          <label>User Type:</label>
+          <select ref={roleRef}>
+            <option value="user">User</option>
+            <option value="businessOwner">Business Owner</option>
+          </select>
+        </div>
+
         <button
           type="submit"
           className={styles.submit_button}
@@ -95,8 +125,9 @@ const RegisterForm = () => {
           Register
         </button>
         {passwordMatch && <p>Passwords Do Not Match!</p>}
+        {accountCreated && <p>Account Created!</p>}
         {isLoading && (
-          <div class={styles.lds_ripple}>
+          <div className={styles.lds_ripple}>
             <div></div>
             <div></div>
           </div>

@@ -1,9 +1,49 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
-const UserTable = require("../models/User");
+
 const connectDB = require("../db/db");
-const userTable = require("../models/User");
+const userModel = require("../models/User");
+
+const seedUsers = async (req, res) => {
+  try {
+    const pool = await connectDB();
+
+    const users = [
+      {
+        email: "test1@example.com",
+        HASH: "password",
+        username: "user1",
+        role: "user",
+      },
+      {
+        email: "business1@example.com",
+        HASH: "password",
+        username: "buisness1",
+        role: "businessOwner",
+      },
+      {
+        email: "admin1@example.com",
+        HASH: "password",
+        username: "admin1",
+        role: "admin",
+      },
+    ];
+
+    for (const user of users) {
+      const { email, HASH, username, role } = user;
+      const hashedPassword = await bcrypt.hash(HASH, 12);
+      await pool.query(
+        "INSERT INTO users(email, HASH, username, role) VALUES($1,$2,$3,$4)",
+        [email, hashedPassword, username, role]
+      );
+    }
+
+    res.status(200).json({ status: "Success", msg: "Seeding completed" });
+  } catch (error) {
+    console.error("Catch error: ", error);
+  }
+};
 
 const registerUser = async (req, res) => {
   const { email, HASH, username, role } = req.body;
@@ -18,7 +58,6 @@ const registerUser = async (req, res) => {
 
   try {
     const pool = await connectDB();
-    await UserTable();
 
     const checkEmailQuery = `SELECT COUNT(*) FROM users WHERE email = $1`;
     const { rows: emailRows } = await pool.query(checkEmailQuery, [email]);
@@ -61,12 +100,11 @@ const login = async (req, res) => {
   if (!email || !HASH) {
     return res
       .status(400)
-      .json({ status: "error", msg: "Please fill on all fields" });
+      .json({ status: "error", msg: "Please fill on all fields now" });
   }
 
   try {
     const pool = await connectDB();
-    await userTable();
 
     const getUserQuery = `SELECT * FROM users WHERE email = $1`;
     const { rows } = await pool.query(getUserQuery, [email]);
@@ -96,13 +134,13 @@ const login = async (req, res) => {
       expiresIn: "20m",
       jwtid: uuidv4(),
     });
+    console.log(access);
 
     const refresh = jwt.sign(claims, process.env.REFRESH_SECRET, {
       expiresIn: "30D",
       jwtid: uuidv4(),
     });
-
-    res.status(200).json({ status: "success", msg: "Succesfully logged in." });
+    res.json({ access, refresh });
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: "error", msg: "Internal Server Error" });
@@ -111,8 +149,6 @@ const login = async (req, res) => {
 
 const refresh = (req, res) => {
   try {
-    console.log(req.body.refresh);
-    console.log(process.env.REFRESH_SECRET);
     const decoded = jwt.verify(req.body.refresh, process.env.REFRESH_SECRET);
     const claims = {
       email: decoded.email,
@@ -133,4 +169,4 @@ const refresh = (req, res) => {
   }
 };
 
-module.exports = { registerUser, login, refresh };
+module.exports = { registerUser, login, refresh, seedUsers };

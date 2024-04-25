@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -21,7 +21,7 @@ function App() {
   };
 
   const isLoggedIn = !!accessToken;
-  const isBuisnessOwner = role === "businessOwner";
+  const isBuisnessOwner = role === 2;
 
   return (
     <UserContext.Provider value={userContextValue}>

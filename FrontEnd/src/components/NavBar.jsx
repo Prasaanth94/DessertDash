@@ -7,7 +7,7 @@ const NavBar = () => {
   const [roleUser, SetRoleUser] = useState("");
 
   useEffect(() => {
-    if (userCtx.role === "user") {
+    if (userCtx.role === 1) {
       SetRoleUser(userCtx.role);
     }
   }, [userCtx.role]);

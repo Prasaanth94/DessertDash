@@ -14,29 +14,33 @@ const seedUsers = async (req, res) => {
         email: "test1@example.com",
         HASH: "password",
         username: "user1",
-        role: "user",
+        role: 1,
       },
       {
         email: "business1@example.com",
         HASH: "password",
         username: "buisness1",
-        role: "businessOwner",
+        role: 2,
       },
       {
         email: "admin1@example.com",
         HASH: "password",
         username: "admin1",
-        role: "admin",
+        role: 3,
       },
     ];
 
     for (const user of users) {
       const { email, HASH, username, role } = user;
       const hashedPassword = await bcrypt.hash(HASH, 12);
-      await pool.query(
-        "INSERT INTO users(email, HASH, username, role) VALUES($1,$2,$3,$4)",
+      const insertedUser = await pool.query(
+        "INSERT INTO users(email, HASH, username, role_id) VALUES($1,$2,$3,$4) RETURNING user_id",
         [email, hashedPassword, username, role]
       );
+
+      const userId = insertedUser.rows[0].user_id;
+      console.log(userId);
+      await pool.query("INSERT INTO cart(user_id) VALUES($1)", [userId]);
     }
 
     res.status(200).json({ status: "Success", msg: "Seeding completed" });
@@ -82,10 +86,26 @@ const registerUser = async (req, res) => {
     }
 
     const insertUserQuery = `
-        INSERT INTO users (email, HASH, username, role)
-        VALUES($1, $2, $3, $4)`;
+        INSERT INTO users (email, HASH, username, role_id)
+        VALUES($1, $2, $3, $4) RETURNING id`;
 
-    await pool.query(insertUserQuery, [email, hashedPassword, username, role]);
+    // if (role === "user") {
+    //   const insertCartQuery = `
+    //       INSERT INTO cart (user_id)
+    //       VALUES($1)`;
+
+    //   await pool.query(insertCartQuery, [insertedUser[0].id]); // Use the returned user ID to insert the cart
+    // }
+
+    const { rows: insertedUser } = await pool.query(insertUserQuery, [
+      email,
+      hashedPassword,
+      username,
+      role,
+    ]);
+
+    const insertCartQuery = `INSERT INTO cart (user_id) VALUES($1)`;
+    await pool.query(insertCartQuery, [insertedUser[0].id]);
 
     res.status(200).json({ message: "User registered succesfully" });
   } catch (error) {
@@ -126,15 +146,14 @@ const login = async (req, res) => {
 
     const claims = {
       email: email,
-      role: rows[0].role,
-      loggedInId: rows[0].id,
+      role: rows[0].role_id,
+      loggedInId: rows[0].user_id,
     };
 
     const access = jwt.sign(claims, process.env.ACCESS_SECRET, {
       expiresIn: "20m",
       jwtid: uuidv4(),
     });
-    console.log(access);
 
     const refresh = jwt.sign(claims, process.env.REFRESH_SECRET, {
       expiresIn: "30D",
@@ -154,8 +173,6 @@ const refresh = (req, res) => {
       email: decoded.email,
       role: decoded.role,
     };
-
-    console.log("decoded : ", decoded);
 
     const access = jwt.sign(claims, process.env.ACCESS_SECRET, {
       expiresIn: "20m",

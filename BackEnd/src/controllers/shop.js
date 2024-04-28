@@ -38,13 +38,14 @@ const createShop = async (req, res) => {
 };
 
 const getShop = async (req, res) => {
-  const { shop_id } = req.body;
+  const { business_owner_id } = req.query;
 
   try {
     const pool = await connectDB();
 
-    const getShopQuery = `SELECT * FROM shop where id = $1`;
-    const shop = await pool.query(getShopQuery, [shop_id]);
+    const getShopQuery = `SELECT * FROM shop where business_owner_id = $1`;
+    const shop = await pool.query(getShopQuery, [business_owner_id]);
+    console.log(shop);
     res.status(200).json({ message: "succes", shop: shop.rows[0] });
   } catch (error) {
     console.error("Cant get shop: ", error);

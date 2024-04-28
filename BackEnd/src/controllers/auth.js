@@ -61,6 +61,8 @@ const registerUser = async (req, res) => {
   const hashedPassword = await bcrypt.hash(HASH, 12);
 
   try {
+    console.log(req.body);
+    console.log(role);
     const pool = await connectDB();
 
     const checkEmailQuery = `SELECT COUNT(*) FROM users WHERE email = $1`;
@@ -87,15 +89,7 @@ const registerUser = async (req, res) => {
 
     const insertUserQuery = `
         INSERT INTO users (email, HASH, username, role_id)
-        VALUES($1, $2, $3, $4) RETURNING id`;
-
-    // if (role === "user") {
-    //   const insertCartQuery = `
-    //       INSERT INTO cart (user_id)
-    //       VALUES($1)`;
-
-    //   await pool.query(insertCartQuery, [insertedUser[0].id]); // Use the returned user ID to insert the cart
-    // }
+        VALUES($1, $2, $3, $4) RETURNING user_id`;
 
     const { rows: insertedUser } = await pool.query(insertUserQuery, [
       email,
@@ -105,7 +99,7 @@ const registerUser = async (req, res) => {
     ]);
 
     const insertCartQuery = `INSERT INTO cart (user_id) VALUES($1)`;
-    await pool.query(insertCartQuery, [insertedUser[0].id]);
+    await pool.query(insertCartQuery, [insertedUser[0].user_id]);
 
     res.status(200).json({ message: "User registered succesfully" });
   } catch (error) {

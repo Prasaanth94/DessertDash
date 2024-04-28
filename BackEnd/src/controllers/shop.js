@@ -44,9 +44,14 @@ const getShop = async (req, res) => {
     const pool = await connectDB();
 
     const getShopQuery = `SELECT * FROM shop where business_owner_id = $1`;
-    const shop = await pool.query(getShopQuery, [business_owner_id]);
-    console.log(shop);
-    res.status(200).json({ message: "succes", shop: shop.rows[0] });
+    const { rows } = await pool.query(getShopQuery, [business_owner_id]);
+
+    if (rows.length === 0) {
+      return res.status(400).json({ message: "Shop not found" });
+    }
+
+    const shop = rows[0];
+    res.status(200).json(shop);
   } catch (error) {
     console.error("Cant get shop: ", error);
     res.status(400).json({ status: "errro", msg: "Internal Server Error" });

@@ -24,10 +24,9 @@ const LoginForm = () => {
       if (res.ok) {
         userCtx.setAccesToken(res.data.access);
         const decoded = jwtDecode(res.data.access);
-        console.log("decoded", decoded);
+
         userCtx.setRole(decoded.role);
-        userCtx.setLoggedInId(decoded.LoggedInId);
-        console.log(res);
+        userCtx.setLoggedInId(decoded.loggedInId);
       } else {
         alert(JSON.stringify(res.data));
       }

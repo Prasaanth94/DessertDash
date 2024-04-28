@@ -35,13 +35,21 @@ const RegisterForm = () => {
 
       throw new Error("Passwords Do Not Match!");
     }
+    let roleNo;
 
+    if (roleRef.current.value === "user") {
+      roleNo = 1;
+    }
+
+    if (roleRef.current.value === "businessOwner") {
+      roleNo = 2;
+    }
     try {
       const res = await fetchData("/auth/register", "PUT", {
         email: emailRef.current.value,
         HASH: passwordRef.current.value,
         username: userNameRef.current.value,
-        role: roleRef.current.value,
+        role: roleNo,
       });
 
       if (res.ok) {

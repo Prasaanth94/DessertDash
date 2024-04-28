@@ -3,7 +3,7 @@ const connectDB = require("../db/db");
 const addProduct = async (req, res) => {
   const { product_name, price, description } = req.body;
   const loggedInId = req.user.id;
-
+  console.log(req.user.id);
   if (!product_name || !price) {
     return res
       .status(400)
@@ -13,15 +13,16 @@ const addProduct = async (req, res) => {
   try {
     const pool = await connectDB();
 
-    const getShopIdquery = `SELECT id FROM shop WHERE businessowner_id =$1`;
+    const getShopIdquery = `SELECT shop_id FROM shop WHERE business_owner_id =$1`;
     const result = await pool.query(getShopIdquery, [loggedInId]);
+    console.log(result);
 
     const createProductQuery = `INSERT INTO product(product_name, price, description, shop_id) VALUES ($1,$2,$3,$4)`;
     await pool.query(createProductQuery, [
       product_name,
       price,
       description,
-      result.rows[0].id,
+      result.rows[0].shop_id,
     ]);
 
     res.status(200).json({ message: "Item succesfully created" });

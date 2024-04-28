@@ -13,7 +13,7 @@ const createShop = async (req, res) => {
   try {
     const pool = await connectDB();
 
-    const insertShopQuery = `INSERT INTO shop (title, businessOwner_id, description) VALUES ($1, $2, $3)  RETURNING id`;
+    const insertShopQuery = `INSERT INTO shop (title, business_owner_id, description) VALUES ($1, $2, $3)  RETURNING shop_id`;
 
     const result = await pool.query(insertShopQuery, [
       title,
@@ -21,10 +21,10 @@ const createShop = async (req, res) => {
       description,
     ]);
 
-    if (result.rows.length > 0 && result.rows[0].id) {
-      const shopId = result.rows[0].id;
+    if (result.rows.length > 0 && result.rows[0].shop_id) {
+      const shopId = result.rows[0].shop_id;
 
-      const insertAddressQuery = `INSERT INTO addressess (location, shop_id) VALUES ($1,$2)`;
+      const insertAddressQuery = `INSERT INTO addresses (location, shop_id) VALUES ($1,$2)`;
       await pool.query(insertAddressQuery, [location, shopId]);
 
       res.status(200).json({ status: "Success", msg: "Shop Created" });

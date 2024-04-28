@@ -3,10 +3,12 @@ import NavBar from "../components/NavBar";
 import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import ShopDetails from "../components/ShopDetails";
+import CreateShopModal from "../components/CreateShopModal";
 
 const BusinessOwnerPage = () => {
   const [shop, setShop] = useState("");
   const [error, setError] = useState(null);
+  const [createShopModal, setCreateShopModal] = useState(false);
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
   const businessOwnerId = userCtx.loggedInId;
@@ -29,13 +31,33 @@ const BusinessOwnerPage = () => {
     }
   };
 
+  const handleSetUp = () => {
+    setCreateShopModal(true);
+  };
+
   useEffect(() => {
     fetchShop(businessOwnerId);
   }, [businessOwnerId]);
   return (
     <>
       <NavBar></NavBar>
-      {shop ? <ShopDetails shop={shop}></ShopDetails> : <p>create shop</p>}
+      {shop ? (
+        <ShopDetails shop={shop}></ShopDetails>
+      ) : (
+        <div>
+          <p>Welcome To DessertDash</p>
+          <p>Set Up Your Shop Here</p>
+          <button type="submit" onClick={handleSetUp}>
+            Set Up
+          </button>
+        </div>
+      )}
+
+      {createShopModal && (
+        <CreateShopModal
+          setCreateShopModal={setCreateShopModal}
+        ></CreateShopModal>
+      )}
     </>
   );
 };

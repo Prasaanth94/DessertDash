@@ -4,6 +4,7 @@ import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import ShopDetails from "../components/ShopDetails";
 import CreateShopModal from "../components/CreateShopModal";
+import { useNavigate } from "react-router-dom";
 
 const BusinessOwnerPage = () => {
   const [shop, setShop] = useState("");
@@ -11,7 +12,11 @@ const BusinessOwnerPage = () => {
   const [createShopModal, setCreateShopModal] = useState(false);
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
   const businessOwnerId = userCtx.loggedInId;
+  if (businessOwnerId === null) {
+    navigate(`/`);
+  }
   console.log(userCtx);
   console.log("business: ", businessOwnerId);
   const fetchShop = async (businessOwnerId) => {
@@ -42,7 +47,7 @@ const BusinessOwnerPage = () => {
     <>
       <NavBar></NavBar>
       {shop ? (
-        <ShopDetails shop={shop}></ShopDetails>
+        <ShopDetails shop={shop} fetchShop={fetchShop}></ShopDetails>
       ) : (
         <div>
           <p>Welcome To DessertDash</p>
@@ -56,6 +61,7 @@ const BusinessOwnerPage = () => {
       {createShopModal && (
         <CreateShopModal
           setCreateShopModal={setCreateShopModal}
+          fetchShop={fetchShop}
         ></CreateShopModal>
       )}
     </>

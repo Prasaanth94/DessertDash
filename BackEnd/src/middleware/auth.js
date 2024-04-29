@@ -7,6 +7,7 @@ const authBusinessOwner = async (req, res, next) => {
   }
 
   const token = req.headers["authorization"].replace("Bearer", "").trim();
+  console.log(token);
 
   if (token) {
     try {

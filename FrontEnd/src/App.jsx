@@ -1,19 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import LandingPage from "./pages/LandingPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import UserContext from "./context/user";
 import NavBar from "./components/NavBar";
 import BusinessOwnerPage from "./pages/BusinessOwnerPage";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
-  const [accessToken, setAccesToken] = useState("");
+  const [accessToken, setAccessToken] = useState("");
   const [loggedInId, setLoggedInId] = useState("");
   const [role, setRole] = useState("");
+  const userCtx = useContext(UserContext);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      const decoded = jwtDecode(accessToken);
+      setRole(decoded.role);
+      setLoggedInId(decoded.loggedInId);
+    }
+  }, []);
 
   const userContextValue = {
     accessToken,
-    setAccesToken,
+    setAccessToken,
     role,
     setRole,
     loggedInId,

@@ -22,9 +22,11 @@ const LoginForm = () => {
       const res = await fetchData("/auth/login", "POST", { email, HASH });
 
       if (res.ok) {
-        userCtx.setAccesToken(res.data.access);
-        const decoded = jwtDecode(res.data.access);
+        const { access } = res.data;
+        const decoded = jwtDecode(access);
+        localStorage.setItem("accessToken", access);
 
+        userCtx.setAccessToken(access);
         userCtx.setRole(decoded.role);
         userCtx.setLoggedInId(decoded.loggedInId);
       } else {

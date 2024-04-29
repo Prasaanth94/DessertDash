@@ -1,10 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./NavBar.module.css";
-import userContext from "../context/user";
-
+import UserContext from "../context/user";
+import { useNavigate } from "react-router-dom";
 const NavBar = () => {
-  const userCtx = useContext(userContext);
+  const userCtx = useContext(UserContext);
   const [roleUser, SetRoleUser] = useState("");
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("role");
+    localStorage.removeItem("loggedInId");
+    userCtx.setAccessToken("");
+    userCtx.setRole("");
+    userCtx.setLoggedInId("");
+    navigate(`/`);
+  };
 
   useEffect(() => {
     if (userCtx.role === 1) {
@@ -27,6 +38,9 @@ const NavBar = () => {
           <p>An icon will be here</p>
           <input type="text"></input>
           <p>Search Icon to search</p>
+          <button type="submit" onClick={logout}>
+            Logout
+          </button>
         </div>
       )}
     </>

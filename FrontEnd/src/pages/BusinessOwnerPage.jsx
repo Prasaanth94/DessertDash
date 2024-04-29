@@ -19,6 +19,7 @@ const BusinessOwnerPage = () => {
   }
   console.log(userCtx);
   console.log("business: ", businessOwnerId);
+
   const fetchShop = async (businessOwnerId) => {
     try {
       const res = await fetchData(
@@ -29,8 +30,8 @@ const BusinessOwnerPage = () => {
         throw new Error(`Failed to fetch shop ${res.statusText}`);
       }
       console.log("res.data: ", res.data);
-      console.log("shop :", shop);
       setShop(res.data);
+      console.log("shop :", shop);
     } catch (error) {
       console.error("error getting shop", error);
     }

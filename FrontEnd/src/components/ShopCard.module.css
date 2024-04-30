@@ -1,0 +1,19 @@
+.shopCard {
+  border: 1px solid black;
+  margin: 20px 0px;
+  border-radius: 20px;
+  box-shadow: 5px 5px 10px black;
+  width: 100%;
+}
+.shopCard:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.shopTitle {
+  margin-left: 20px;
+}
+
+.shopDescription {
+  margin-left: 20px;
+}

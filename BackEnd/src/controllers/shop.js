@@ -58,4 +58,44 @@ const getShop = async (req, res) => {
   }
 };
 
-module.exports = { createShop, getShop };
+const getShopByShopId = async (req, res) => {
+  const { shop_id } = req.params;
+
+  try {
+    const pool = await connectDB();
+
+    const getShopByIdQuery = `SELECT * FROM SHOP WHERE shop_id =$1`;
+    const { rows } = await pool.query(getShopByIdQuery, [shop_id]);
+
+    if (rows.length === 0) {
+      return res.status(400).json({ message: "Shop not found" });
+    }
+    const shop = rows[0];
+    res.status(200).json(shop);
+  } catch (error) {
+    console.error("Cant Get Shop: ", error);
+    res.status(400).json({ status: "Error", msg: "Internal Server Error" });
+  }
+};
+
+const getShopByName = async (req, res) => {
+  const { title } = req.params;
+
+  try {
+    const pool = await connectDB();
+
+    const searchShopByNameQuery = `SELECT * FROM shop WHERE LOWER(title) LIKE '%' || LOWER($1) || '%' `;
+    const { rows } = await pool.query(searchShopByNameQuery, [title]);
+
+    if (rows.length === 0) {
+      return res.status(400).json({ status: "error", msg: "No Shop Found" });
+    }
+    const shops = rows;
+    res.status(200).json(shops);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", msg: "Internal server error" });
+  }
+};
+
+module.exports = { createShop, getShop, getShopByName, getShopByShopId };

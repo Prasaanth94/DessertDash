@@ -122,12 +122,10 @@ const updateProduct = async (req, res) => {
     ]);
 
     if (ownershipResult.rows.length === 0) {
-      return res
-        .status(403)
-        .json({
-          status: "error",
-          msg: "You do not have permission to update this product",
-        });
+      return res.status(403).json({
+        status: "error",
+        msg: "You do not have permission to update this product",
+      });
     }
 
     // Construct the update query
@@ -151,12 +149,10 @@ const updateProduct = async (req, res) => {
 
     // Check if any rows were affected
     if (updateResult.rowCount === 0) {
-      return res
-        .status(404)
-        .json({
-          status: "error",
-          msg: "Product not found or no changes applied",
-        });
+      return res.status(404).json({
+        status: "error",
+        msg: "Product not found or no changes applied",
+      });
     }
 
     res
@@ -177,7 +173,7 @@ const getProduct = async (req, res) => {
     const { rows } = await pool.query(getProductQuery, [shop_id]);
 
     if (rows.length === 0) {
-      return res.status(400).json({ messege: "Products not found" });
+      return res.status(400).json({ messege: "No Products Available" });
     }
 
     const products = rows;
@@ -204,12 +200,12 @@ const toggleProductAvailability = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-  const { product_id } = req.body;
+  const { product_id } = req.query;
 
   try {
     const pool = await connectDB();
 
-    const deleteProduct = `DELETE FROM product where id=$1`;
+    const deleteProduct = `DELETE FROM product WHERE product_id=$1`;
     await pool.query(deleteProduct, [product_id]);
     res.status(200).json({ message: "Succesfully Deleted Product" });
   } catch (error) {

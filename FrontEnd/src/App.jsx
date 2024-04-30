@@ -6,6 +6,7 @@ import UserContext from "./context/user";
 import NavBar from "./components/NavBar";
 import BusinessOwnerPage from "./pages/BusinessOwnerPage";
 import { jwtDecode } from "jwt-decode";
+import ShopPage from "./pages/ShopPage";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -57,6 +58,7 @@ function App() {
             path="/BusinessOwnerPage"
             element={<BusinessOwnerPage />}
           ></Route>
+          <Route path="/ShopPage/:shopId" element={<ShopPage />}></Route>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

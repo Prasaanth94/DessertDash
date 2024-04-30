@@ -5,6 +5,7 @@ import UserContext from "../context/user";
 import ShopDetails from "../components/ShopDetails";
 import CreateShopModal from "../components/CreateShopModal";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const BusinessOwnerPage = () => {
   const [shop, setShop] = useState("");

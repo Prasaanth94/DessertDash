@@ -1,0 +1,17 @@
+.productContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* Adjust spacing between elements */
+  align-items: center; /* Align items vertically */
+  padding: 10px; /* Add padding for spacing */
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc; /* Add a bottom border for separation */
+}
+
+.productContainer > div {
+  flex: 1; /* Distribute space evenly among child elements */
+}
+
+.productContainer > div:not(:last-child) {
+  margin-right: 10px; /* Add margin between elements */
+}

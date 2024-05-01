@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import BusinessOwnerPage from "./pages/BusinessOwnerPage";
 import { jwtDecode } from "jwt-decode";
 import ShopPage from "./pages/ShopPage";
+import Cart from "./pages/Cart";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -59,6 +60,7 @@ function App() {
             element={<BusinessOwnerPage />}
           ></Route>
           <Route path="/ShopPage/:shopId" element={<ShopPage />}></Route>
+          <Route path="/Cart" element={<Cart />}></Route>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

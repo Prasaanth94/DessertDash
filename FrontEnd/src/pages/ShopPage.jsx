@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import Products from "../components/Products";
+import SideBar from "../components/SideBar";
 
 const ShopPage = () => {
   const { shopId } = useParams();
@@ -51,6 +52,7 @@ const ShopPage = () => {
   return (
     <>
       <NavBar></NavBar>
+      <SideBar></SideBar>
       <div>
         <h1>{shop.title}</h1>
         <p>{shop.description}</p>

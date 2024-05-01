@@ -49,7 +49,7 @@ const Products = (props) => {
         {
           product_id: product_id,
           quantity: quantity,
-          product_total_price: price,
+          product_price: price,
         },
         userCtx.accessToken
       );

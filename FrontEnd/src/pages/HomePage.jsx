@@ -3,6 +3,7 @@ import NavBar from "../components/NavBar";
 import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
 import ShopCard from "../components/ShopCard";
+import SideBar from "../components/SideBar";
 
 const HomePage = () => {
   const fetchData = useFetch();
@@ -46,6 +47,7 @@ const HomePage = () => {
   return (
     <>
       <NavBar onSearch={handleSearch}></NavBar>
+      <SideBar></SideBar>
       {shops && (
         <>
           {shops.map((shop) => (

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from "./NavBar.module.css";
 import UserContext from "../context/user";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 
 const NavBar = ({ onSearch }) => {
@@ -12,15 +12,7 @@ const NavBar = ({ onSearch }) => {
   const navigate = useNavigate();
   const fetchData = useFetch();
 
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("role");
-    localStorage.removeItem("loggedInId");
-    userCtx.setAccessToken("");
-    userCtx.setRole("");
-    userCtx.setLoggedInId("");
-    navigate(`/`);
-  };
+  const location = useLocation();
 
   const handleSearch = () => {
     const searchValue = searchValueRef.current.value;
@@ -40,15 +32,15 @@ const NavBar = ({ onSearch }) => {
         <div className={styles.navbar}>
           <h3>Logo</h3>
           <p>An icon will be here</p>
-          <div>
-            <input type="text" ref={searchValueRef}></input>
-            <button className={styles.searchButton} onClick={handleSearch}>
-              Search
-            </button>
-            <button type="submit" onClick={logout}>
-              Logout
-            </button>
-          </div>
+          {/* Render search input and button only on the home page */}
+          {location.pathname === "/HomePage" && (
+            <div>
+              <input type="text" ref={searchValueRef}></input>
+              <button className={styles.searchButton} onClick={handleSearch}>
+                Search
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <div className={styles.navbar} id={styles.businessOwnerNav}>
@@ -56,9 +48,6 @@ const NavBar = ({ onSearch }) => {
           <p>An icon will be here</p>
 
           <p>Search Icon to search</p>
-          <button type="submit" onClick={logout}>
-            Logout
-          </button>
         </div>
       )}
     </>

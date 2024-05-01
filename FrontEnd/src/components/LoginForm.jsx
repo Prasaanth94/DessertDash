@@ -25,6 +25,7 @@ const LoginForm = () => {
         const { access, refresh } = res.data;
         const decoded = jwtDecode(access);
         localStorage.setItem("accessToken", access);
+        localStorage.setItem("refreshToken", refresh);
 
         userCtx.setAccessToken(access);
         userCtx.setRole(decoded.role);

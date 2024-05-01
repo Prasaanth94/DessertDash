@@ -18,10 +18,13 @@ function App() {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
     if (accessToken) {
       const decoded = jwtDecode(accessToken);
       setRole(decoded.role);
       setLoggedInId(decoded.loggedInId);
+      setAccessToken(accessToken);
+      console.log(accessToken);
     }
   }, []);
 

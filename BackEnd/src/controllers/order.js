@@ -111,4 +111,77 @@ const getUserOrder = async (req, res) => {
   }
 };
 
-module.exports = { moveToOrder, getUserOrder };
+const getOwnerOrder = async (req, res) => {
+  const { shop_id } = req.params;
+
+  try {
+    console.log("shopid: ", shop_id);
+    const pool = await connectDB();
+
+    // Query to retrieve orders for the user
+    const getUserOrderQuery = `SELECT * FROM checkout WHERE shop_id = $1`;
+    const { rows: orders } = await pool.query(getUserOrderQuery, [shop_id]);
+
+    if (orders.length === 0) {
+      return res.status(400).json({ status: "error", msg: "No orders found" });
+    }
+
+    // Extracting product IDs from orders
+    const productIds = orders.map((order) => order.product_id);
+
+    // Query to retrieve products for the obtained product IDs
+    const getProductQuery = `SELECT * FROM product WHERE product_id IN (${productIds
+      .map((_, index) => `$${index + 1}`)
+      .join(",")})`;
+    const { rows: products } = await pool.query(getProductQuery, productIds);
+
+    const userIds = orders.map((order) => order.user_id);
+
+    // Query to retrieve users for the obtained user IDs
+    const getUserQuery = `SELECT * FROM users WHERE user_id IN (${userIds
+      .map((_, index) => `$${index + 1}`)
+      .join(",")})`;
+    const { rows: users } = await pool.query(getUserQuery, userIds);
+    console.log({ users });
+
+    // Mapping products to their respective orders and adding shop details
+    const ordersWithProductsAndUsers = orders.map((order) => {
+      const product = products.find(
+        (product) => product.product_id === order.product_id
+      );
+      const user = users.find((user) => user.user_id === order.user_id);
+      return {
+        ...order,
+        product,
+        user,
+      };
+    });
+
+    res
+      .status(200)
+      .json({ status: "success", data: ordersWithProductsAndUsers });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ status: "error", msg: "Internal server error" });
+  }
+};
+
+const orderCollected = async (req, res) => {
+  const product_id = req.params.product_id;
+  try {
+    const pool = await connectDB();
+
+    const orderCollectedQuery = `DELETE FROM checkout WHERE product_id = $1`;
+    await pool.query(orderCollectedQuery, [product_id]);
+
+    res
+      .status(200)
+      .json({ status: "success", msg: "Order collected successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    return res
+      .status(500)
+      .json({ status: "error", msg: "Internal server Error" });
+  }
+};
+module.exports = { moveToOrder, getUserOrder, getOwnerOrder, orderCollected };

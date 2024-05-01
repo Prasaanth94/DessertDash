@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useContext } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -8,22 +9,20 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import LogoutIcon from "@mui/icons-material/Logout";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
+
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import styles from "./SideBar.module.css";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import UserContext from "../context/user";
 
 export default function TemporaryDrawer() {
   const [open, setOpen] = React.useState(false);
-
+  const userCtx = useContext(UserContext);
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
@@ -40,16 +39,6 @@ export default function TemporaryDrawer() {
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-      <List>
-        <ListItem disablePadding component={Link} to="">
-          <ListItemButton>
-            <ListItemIcon>
-              <AccountBoxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Profile Page"} />
-          </ListItemButton>
-        </ListItem>
-      </List>
       <List>
         <ListItem disablePadding>
           <ListItemButton component={Link} to="/OrdersPage">

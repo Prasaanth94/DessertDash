@@ -9,9 +9,34 @@ const OrdersPage = () => {
   const fetchData = useFetch();
   const [orders, setOrders] = useState("");
   const userCtx = useContext(UserContext);
+  let businessOwnerId = null;
+  let userId = null;
+  const role = userCtx.role;
+  const [shop, setShop] = useState("");
 
-  const check = () => {
-    console.log("userCtx: ", userCtx);
+  if (userCtx.role === 2) {
+    businessOwnerId = userCtx.loggedInId;
+  }
+
+  if (userCtx.role === 1) {
+    userId = userCtx.loggedInId;
+  }
+
+  const fetchShop = async (businessOwnerId) => {
+    try {
+      const res = await fetchData(
+        `/api/getShop?business_owner_id=${businessOwnerId}`,
+        "GET"
+      );
+      if (!res.ok) {
+        throw new Error(`Failed to fetch shop ${res.statusText}`);
+      }
+
+      setShop(res.data);
+      console.log("shop :", shop);
+    } catch (error) {
+      console.error("error getting shop", error);
+    }
   };
 
   const getOrder = async () => {
@@ -27,7 +52,27 @@ const OrdersPage = () => {
         throw new Error("error :", res.statusText);
       }
 
-      console.log(res.data);
+      setOrders(res.data.data);
+    } catch (error) {
+      console.error("Cant get orders :", error);
+    }
+  };
+
+  const getOrderByShopId = async () => {
+    const shop_id = shop.shop_id;
+
+    try {
+      const res = await fetchData(
+        `/api/getOwnerOrder/${shop_id}`,
+        "GET",
+        undefined,
+        userCtx.accessToken
+      );
+
+      if (!res.ok) {
+        throw new Error("error :", res.statusText);
+      }
+      console.log(res.data.data);
       setOrders(res.data.data);
     } catch (error) {
       console.error("Cant get orders :", error);
@@ -35,8 +80,15 @@ const OrdersPage = () => {
   };
 
   useEffect(() => {
-    getOrder();
-  }, []);
+    if (userId) {
+      getOrder();
+    } else if (businessOwnerId) {
+      fetchShop(businessOwnerId);
+    }
+  }, [userCtx]);
+  useEffect(() => {
+    getOrderByShopId();
+  }, [shop]);
 
   return (
     <>
@@ -45,9 +97,8 @@ const OrdersPage = () => {
       {orders.length === 0 ? (
         <div>No Orders</div>
       ) : (
-        <OrderItems orders={orders}></OrderItems>
+        <OrderItems orders={orders} role={role}></OrderItems>
       )}
-      <button onClick={check}>check</button>
     </>
   );
 };

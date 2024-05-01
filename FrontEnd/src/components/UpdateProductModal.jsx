@@ -38,6 +38,7 @@ const OverLay = (props) => {
         throw new Error("Failed to update product : ", res.statusText);
       }
       props.setUpdateModal(false);
+      props.fetchProducts();
     } catch (error) {
       console.error("Error updating Product: ", error);
     }
@@ -110,6 +111,7 @@ const UpdateProductModal = (props) => {
           product_name={props.product_name}
           description={props.description}
           price={props.price}
+          fetchProducts={props.fetchProducts}
         ></OverLay>,
         document.querySelector("#modal-root")
       )}

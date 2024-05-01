@@ -5,7 +5,7 @@ import UserContext from "../context/user";
 import ShopDetails from "../components/ShopDetails";
 import CreateShopModal from "../components/CreateShopModal";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import SideBar from "../components/SideBar";
 
 const BusinessOwnerPage = () => {
   const [shop, setShop] = useState("");
@@ -44,10 +44,11 @@ const BusinessOwnerPage = () => {
 
   useEffect(() => {
     fetchShop(businessOwnerId);
-  }, [businessOwnerId]);
+  }, [userCtx]);
   return (
     <>
       <NavBar></NavBar>
+      <SideBar></SideBar>
       {shop ? (
         <ShopDetails shop={shop} fetchShop={fetchShop}></ShopDetails>
       ) : (

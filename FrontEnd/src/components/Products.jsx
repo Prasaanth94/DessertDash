@@ -118,6 +118,7 @@ const Products = (props) => {
           product_name={props.product_name}
           description={props.description}
           price={props.price}
+          fetchProducts={props.fetchProducts}
           setUpdateModal={setUpdateModal}
         />
       )}

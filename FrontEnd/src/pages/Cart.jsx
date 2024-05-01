@@ -74,7 +74,7 @@ const Cart = () => {
 
   useEffect(() => {
     getCartItems();
-  }, []);
+  }, [userCtx]);
   return (
     <>
       <NavBar></NavBar>

@@ -80,7 +80,7 @@ const Cart = () => {
       <NavBar></NavBar>
       <SideBar></SideBar>
       <div>Shopping Cart</div>
-      <button onClick={checkCart}>Check</button>
+
       {cart.length === 0 ? (
         <div className={`container`}>
           <div className={styles.text}>Your cart is empty.</div>
@@ -99,7 +99,11 @@ const Cart = () => {
               onToggleProduct={handleToggleProduct}
             />
           ))}
-          <button onClick={handleCheckOut}>Checkout Selected Items</button>
+          <div className={styles.buttonContainer}>
+            <button onClick={handleCheckOut} className={styles.checkOutButton}>
+              Checkout Selected Items
+            </button>
+          </div>
         </>
       )}
     </>

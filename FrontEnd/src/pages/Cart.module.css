@@ -4,3 +4,27 @@
   font-size: 3rem;
   text-decoration: underline;
 }
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.checkOutButton {
+  background-color: #72eb9f;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 30px;
+}
+
+.checkOutButton:hover {
+  background-color: #53d482;
+}

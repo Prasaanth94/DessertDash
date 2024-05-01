@@ -60,7 +60,9 @@ const ShopDetails = (props) => {
           ></Products>
         ))}
       <div className={styles.addButton}>
-        <button onClick={handleAdd}>ADD Product</button>
+        <button onClick={handleAdd} className={styles.addProductButton}>
+          ADD Product
+        </button>
         {addProductModal && (
           <AddProductModal
             setAddProductModal={setAddProductModal}

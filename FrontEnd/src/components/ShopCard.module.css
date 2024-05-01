@@ -2,8 +2,9 @@
   border: 1px solid black;
   margin: 20px 0px;
   border-radius: 20px;
-  box-shadow: 5px 5px 10px black;
+  box-shadow: 5px 5px 10px rgb(131, 211, 131);
   width: 100%;
+  background-color: rgb(206, 254, 206);
 }
 .shopCard:hover {
   transform: scale(1.1);

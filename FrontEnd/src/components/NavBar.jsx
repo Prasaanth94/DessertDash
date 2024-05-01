@@ -30,8 +30,8 @@ const NavBar = ({ onSearch }) => {
     <>
       {roleUser ? (
         <div className={styles.navbar}>
-          <h3>Logo</h3>
-          <p>An icon will be here</p>
+          <h3 className={styles.logo}>DessertDash</h3>
+
           {/* Render search input and button only on the home page */}
           {location.pathname === "/HomePage" && (
             <div>

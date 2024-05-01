@@ -2,3 +2,20 @@
   text-align: center;
   margin-top: 30px;
 }
+
+.addProductButton {
+  background-color: #78d4d0;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.addProductButton:hover {
+  background-color: #5eded8;
+}

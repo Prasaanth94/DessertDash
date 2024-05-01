@@ -74,11 +74,21 @@ const Products = (props) => {
           <div>{props.product_name}</div>
           <div>{props.description}</div>
           <div>${props.price}</div>
-          <button type="submit" onClick={handleUpdate}>
+          <button
+            type="submit"
+            onClick={handleUpdate}
+            className={styles.updateButton}
+          >
             Update
           </button>
-          <button type="submit">Toggle</button>
-          <button type="submit" onClick={deleteProduct}>
+          <button type="submit" className={styles.updateButton}>
+            Toggle
+          </button>
+          <button
+            type="submit"
+            className={styles.updateButton}
+            onClick={deleteProduct}
+          >
             Delete
           </button>
         </div>
@@ -100,7 +110,9 @@ const Products = (props) => {
                 </option>
               ))}
             </select>
-            <button onClick={addToCart}>Add To Cart</button>
+            <button onClick={addToCart} className={styles.addToCartButton}>
+              Add To Cart
+            </button>
           </div>
         </div>
       )}

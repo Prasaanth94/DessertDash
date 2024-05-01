@@ -4,6 +4,7 @@ import SideBar from "../components/SideBar";
 import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 import OrderItems from "../components/OrderItems";
+import styles from "./OrderPage.module.css";
 
 const OrdersPage = () => {
   const fetchData = useFetch();
@@ -95,7 +96,7 @@ const OrdersPage = () => {
       <NavBar></NavBar>
       <SideBar></SideBar>
       {orders.length === 0 ? (
-        <div>No Orders</div>
+        <div className={styles.noOrder}>No Orders</div>
       ) : (
         <OrderItems orders={orders} role={role}></OrderItems>
       )}

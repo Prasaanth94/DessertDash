@@ -29,7 +29,7 @@ const getCartItems = async (req, res) => {
   const userId = req.user.id;
   const pool = await connectDB();
   try {
-    const getCartItemsQuery = `SELECT p.product_name, p.price, p.description, c.quantity, c.product_total_price 
+    const getCartItemsQuery = `SELECT p.product_id, p.product_name, p.price, p.description, c.quantity, c.product_total_price 
     FROM product p 
     JOIN cart c ON p.product_id = c.product_id
     WHERE c.user_id = $1

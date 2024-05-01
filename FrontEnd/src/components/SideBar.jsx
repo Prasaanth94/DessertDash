@@ -52,11 +52,11 @@ export default function TemporaryDrawer() {
       </List>
       <List>
         <ListItem disablePadding>
-          <ListItemButton component={Link} to="/SearchUsersPage">
+          <ListItemButton component={Link} to="/OrdersPage">
             <ListItemIcon>
               <PersonSearchIcon />
             </ListItemIcon>
-            <ListItemText primary={"Search User"} />
+            <ListItemText primary={"Order Page"} />
           </ListItemButton>
         </ListItem>
       </List>

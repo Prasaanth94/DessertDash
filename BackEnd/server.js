@@ -11,6 +11,7 @@ const address = require("./src/routers/addressess");
 const product = require("./src/routers/product");
 const user = require("./src/routers/user");
 const cart = require("./src/routers/cart");
+const order = require("./src/routers/order");
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -29,7 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", auth);
-app.use("/api", shop, address, product, user, cart);
+app.use("/api", shop, address, product, user, cart, order);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

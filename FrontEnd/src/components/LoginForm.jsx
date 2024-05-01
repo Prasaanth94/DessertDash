@@ -22,7 +22,7 @@ const LoginForm = () => {
       const res = await fetchData("/auth/login", "POST", { email, HASH });
 
       if (res.ok) {
-        const { access } = res.data;
+        const { access, refresh } = res.data;
         const decoded = jwtDecode(access);
         localStorage.setItem("accessToken", access);
 

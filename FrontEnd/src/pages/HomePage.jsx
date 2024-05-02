@@ -13,7 +13,6 @@ const HomePage = () => {
 
   const handleSearch = (value) => {
     setSearchShop(value);
-    console.log("Search Value :", value);
   };
 
   const searchShopByName = async () => {
@@ -39,10 +38,6 @@ const HomePage = () => {
       searchShopByName();
     }
   }, [searchShop]);
-
-  const check = () => {
-    console.log(userCtx);
-  };
 
   return (
     <>

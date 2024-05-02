@@ -27,6 +27,8 @@ export default function TemporaryDrawer() {
     setOpen(newOpen);
   };
 
+  const role = userCtx.role;
+
   const logout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("role");
@@ -39,6 +41,18 @@ export default function TemporaryDrawer() {
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+      {role === 2 && (
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton component={Link} to="/BusinessOwnerPage">
+              <ListItemIcon>
+                <PersonSearchIcon />
+              </ListItemIcon>
+              <ListItemText primary={"BusinessPage"} />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      )}
       <List>
         <ListItem disablePadding>
           <ListItemButton component={Link} to="/OrdersPage">

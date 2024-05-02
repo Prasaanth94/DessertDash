@@ -11,7 +11,6 @@ const ShopDetails = (props) => {
   const [products, setProducts] = useState();
   const [addProductModal, setAddProductModal] = useState(false);
   const shopId = props.shop.shop_id;
-  console.log("Shop details Component: shopId: ", shopId);
 
   const fetchProducts = async (shopId) => {
     try {
@@ -26,7 +25,7 @@ const ShopDetails = (props) => {
         const errorData = await res;
         throw new Error(`Failed to Fetch products ${errorData.msg} `);
       }
-      console.log(res.data);
+
       setProducts(res.data);
     } catch (error) {
       console.error("Error getting shop: ", error);

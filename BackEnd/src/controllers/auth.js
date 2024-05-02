@@ -61,8 +61,6 @@ const registerUser = async (req, res) => {
   const hashedPassword = await bcrypt.hash(HASH, 12);
 
   try {
-    console.log(req.body);
-    console.log(role);
     const pool = await connectDB();
 
     const checkEmailQuery = `SELECT COUNT(*) FROM users WHERE email = $1`;

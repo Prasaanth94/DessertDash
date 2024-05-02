@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const ShopCard = (props) => {
   const navigate = useNavigate();
-  console.log(props.shop_id);
 
   const handleClick = (event) => {
     event.preventDefault();

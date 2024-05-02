@@ -12,7 +12,6 @@ const OverLay = (props) => {
   const userCtx = useContext(UserContext);
 
   const createShop = async () => {
-    console.log(userCtx);
     const title = titleRef.current.value;
     const description = descriptionRef.current.value;
     const location = locationRef.current.value;

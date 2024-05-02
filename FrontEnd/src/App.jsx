@@ -24,7 +24,6 @@ function App() {
       setRole(decoded.role);
       setLoggedInId(decoded.loggedInId);
       setAccessToken(accessToken);
-      console.log(accessToken);
     }
   }, []);
 

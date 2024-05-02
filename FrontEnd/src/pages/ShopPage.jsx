@@ -37,7 +37,6 @@ const ShopPage = () => {
       }
 
       setProducts(res.data);
-      console.log("res: ", res);
     } catch (error) {
       console.error("Error getting shop: ", error);
     }

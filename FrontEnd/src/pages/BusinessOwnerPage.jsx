@@ -18,8 +18,6 @@ const BusinessOwnerPage = () => {
   if (businessOwnerId === null) {
     navigate(`/`);
   }
-  console.log(userCtx);
-  console.log("business: ", businessOwnerId);
 
   const fetchShop = async (businessOwnerId) => {
     try {

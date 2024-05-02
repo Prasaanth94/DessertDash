@@ -34,7 +34,6 @@ const OrdersPage = () => {
       }
 
       setShop(res.data);
-      console.log("shop :", shop);
     } catch (error) {
       console.error("error getting shop", error);
     }

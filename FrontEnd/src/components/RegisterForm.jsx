@@ -62,7 +62,7 @@ const RegisterForm = () => {
         console.log(error);
       }
     } catch (error) {
-      console.log("Error registering", error);
+      console.error("Error registering", error);
     }
   };
   return (

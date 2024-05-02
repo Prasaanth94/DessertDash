@@ -10,7 +10,6 @@ const OverLay = (props) => {
   const priceRef = useRef();
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
-  console.log(props);
 
   const updateProduct = async () => {
     const product_name = nameRef.current.value;

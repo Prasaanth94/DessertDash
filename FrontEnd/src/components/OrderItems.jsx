@@ -3,7 +3,7 @@ import styles from "./OrderItems.module.css";
 import useFetch from "../hooks/useFetch";
 import UserContext from "../context/user";
 
-const OrderItems = ({ orders, role }) => {
+const OrderItems = ({ orders, role, getOrderByShopId, shopId }) => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
 
@@ -20,6 +20,8 @@ const OrderItems = ({ orders, role }) => {
         throw new Error("error", res.statusText);
       }
       alert("Order collected successfully!");
+      console.log("shopId", shopId);
+      getOrderByShopId(shopId);
     } catch (error) {
       console.error("Cant remove error", error);
     }

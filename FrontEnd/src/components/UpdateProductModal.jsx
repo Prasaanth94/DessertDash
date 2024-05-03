@@ -18,9 +18,6 @@ const OverLay = (props) => {
     const product_id = props.product_id;
 
     try {
-      console.log(product_id);
-      console.log(userCtx.accessToken);
-      console.log("price :", price);
       const res = await fetchData(
         `/api/updateProduct`,
         "PATCH",
@@ -37,7 +34,8 @@ const OverLay = (props) => {
         throw new Error("Failed to update product : ", res.statusText);
       }
       props.setUpdateModal(false);
-      props.fetchProducts();
+
+      props.fetchProducts(props.shop_id);
     } catch (error) {
       console.error("Error updating Product: ", error);
     }
@@ -110,6 +108,7 @@ const UpdateProductModal = (props) => {
           product_name={props.product_name}
           description={props.description}
           price={props.price}
+          shop_id={props.shop_id}
           fetchProducts={props.fetchProducts}
         ></OverLay>,
         document.querySelector("#modal-root")

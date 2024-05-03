@@ -59,6 +59,10 @@ const OrdersPage = () => {
   };
 
   const getOrderByShopId = async () => {
+    if (!shop || !shop.shop_id) {
+      console.error("Shop is not available");
+      return;
+    }
     const shop_id = shop.shop_id;
 
     try {
@@ -72,7 +76,7 @@ const OrdersPage = () => {
       if (!res.ok) {
         throw new Error("error :", res.statusText);
       }
-      console.log(res.data.data);
+
       setOrders(res.data.data);
     } catch (error) {
       console.error("Cant get orders :", error);
@@ -87,7 +91,9 @@ const OrdersPage = () => {
     }
   }, [userCtx]);
   useEffect(() => {
-    getOrderByShopId();
+    if (shop.shop_id) {
+      getOrderByShopId();
+    }
   }, [shop]);
 
   return (
@@ -97,7 +103,12 @@ const OrdersPage = () => {
       {orders.length === 0 ? (
         <div className={styles.noOrder}>No Orders</div>
       ) : (
-        <OrderItems orders={orders} role={role}></OrderItems>
+        <OrderItems
+          orders={orders}
+          role={role}
+          getOrderByShopId={getOrderByShopId}
+          shopId={shop.shop_id}
+        ></OrderItems>
       )}
     </>
   );

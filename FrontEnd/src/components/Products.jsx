@@ -14,6 +14,10 @@ const Products = (props) => {
 
   const businessOwner = userCtx.role === 2;
 
+  const check = () => {
+    console.log(props.shopId);
+  };
+
   const handleUpdate = () => {
     setUpdateModal(true);
   };
@@ -130,6 +134,7 @@ const Products = (props) => {
           product_name={props.product_name}
           description={props.description}
           price={props.price}
+          shop_id={props.shopId}
           fetchProducts={props.fetchProducts}
           setUpdateModal={setUpdateModal}
         />

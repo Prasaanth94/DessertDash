@@ -133,7 +133,7 @@ const login = async (req, res) => {
     if (!passwordMatch) {
       return res
         .status(400)
-        .json({ status: "error", msg: "passwords not matching" });
+        .json({ status: "error", msg: "Invalid Credentials" });
     }
 
     const claims = {

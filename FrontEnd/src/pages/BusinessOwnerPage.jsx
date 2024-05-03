@@ -28,7 +28,7 @@ const BusinessOwnerPage = () => {
       if (!res.ok) {
         throw new Error(`Failed to fetch shop ${res.statusText}`);
       }
-      console.log("res.data: ", res.data);
+
       setShop(res.data);
       console.log("shop :", shop);
     } catch (error) {

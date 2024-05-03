@@ -16,7 +16,7 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 
 #### Landing page for sign-ups and login
 
-<img src="./ReadmeImg/landingpage.gif">
+<img src="./ReadmeImg/login.gif">
 
 #### Manage your profile and pen a tale on the profile page
 

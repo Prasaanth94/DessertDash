@@ -1,0 +1,26 @@
+.landingpage {
+  display: flex; /* Use flexbox layout */
+  justify-content: center; /* Center align items horizontally */
+  align-items: center; /* Center align items vertically */
+  height: 100vh;
+}
+
+.landingpage_img {
+  flex: 1.5; /* Let the image take up remaining space */
+  max-width: 70%; /* Limit the width of the image */
+  height: 100%;
+}
+
+.form_container {
+  flex: 1; /* Let the form container take up remaining space */
+  padding: 20px; /* Add padding for spacing */
+}
+
+.clickToReg {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.clickToReg:hover {
+  color: lightskyblue;
+}

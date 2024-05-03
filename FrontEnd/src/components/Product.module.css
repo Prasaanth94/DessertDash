@@ -1,0 +1,48 @@
+.productContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* Adjust spacing between elements */
+  align-items: center; /* Align items vertically */
+  padding: 10px; /* Add padding for spacing */
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc; /* Add a bottom border for separation */
+}
+
+.productContainer > div {
+  flex: 1; /* Distribute space evenly among child elements */
+}
+
+.productContainer > div:not(:last-child) {
+  margin-right: 10px; /* Add margin between elements */
+}
+
+.addToCartButton {
+  background-color: #72eb9f;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addToCartButton:hover {
+  background-color: #53d482;
+}
+
+.updateButton {
+  background-color: #78d4d0;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 30px;
+}
+
+.updateButton:hover {
+  background-color: #5eded8;
+}

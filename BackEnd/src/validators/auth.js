@@ -11,6 +11,11 @@ const validateRegistrationData = [
   body("email", "valid email is required").isEmail(),
 ];
 
+const validateLoginData = [
+  body("email", "email is required").not().isEmpty().isEmail(),
+  body("HASH", "password is required").not().isEmpty(),
+];
+
 module.exports = {
   validateRegistrationData,
 };

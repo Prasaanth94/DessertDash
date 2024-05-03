@@ -56,6 +56,13 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 - PG
 - expressJs
 
+
+# Erd Diagram
+
+##### ERD diagram based on the data needed to be stored on postgre sql
+
+<img src="./ReadmeImg/ERD_Diagram.png">
+
 # Getting Started
 
 ### Backend Setup

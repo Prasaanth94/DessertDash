@@ -40,7 +40,7 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 
 #### shop Order Handling Interface
 
-<img src="/.ReadmeImg/ordersHandling.gif">
+<img src="./ReadmeImg/ordersHandling.gif">
 
 # Technologies Used
 

@@ -18,17 +18,17 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 
 <img src="./ReadmeImg/login.gif">
 
-#### Manage your profile and pen a tale on the profile page
+#### Search For Dessert Shops
 
-<img src="./public/profilepage.gif">
+<img src="./ReadmeImg/search_shop.gif">
 
-#### Manage your post and interact with other users in the comment section
+#### Adding items to cart
 
-<img src="./public/postpage.gif">
+<img src="./ReadmeImg/addToCart.gif">
 
-#### Search for fellow travelers by their username
+#### CheckOut
 
-<img src="./public/usersearch.gif">
+<img src="./ReadmeImg/checkout.gif">
 
 #### Make connections by following your favourite user
 

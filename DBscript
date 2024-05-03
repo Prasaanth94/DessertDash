@@ -1,0 +1,174 @@
+-- Table: public.users
+
+-- DROP TABLE IF EXISTS public.users;
+
+CREATE TABLE IF NOT EXISTS public.users
+(
+    user_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    email character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    hash character varying(500) COLLATE pg_catalog."default" NOT NULL,
+    username character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    role_id integer NOT NULL,
+    active boolean NOT NULL DEFAULT true,
+    CONSTRAINT users_pkey PRIMARY KEY (user_id),
+    CONSTRAINT users_role_id_fkey FOREIGN KEY (role_id)
+        REFERENCES public.roles (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.users
+    OWNER to db_user;
+
+-- Table: public.roles
+
+-- DROP TABLE IF EXISTS public.roles;
+
+CREATE TABLE IF NOT EXISTS public.roles
+(
+    id integer NOT NULL DEFAULT nextval('roles_id_seq'::regclass),
+    role_name character varying(20) COLLATE pg_catalog."default",
+    CONSTRAINT roles_pkey PRIMARY KEY (id),
+    CONSTRAINT roles_role_name_key UNIQUE (role_name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.roles
+    OWNER to db_user;
+
+-- Table: public.shop
+
+-- DROP TABLE IF EXISTS public.shop;
+
+CREATE TABLE IF NOT EXISTS public.shop
+(
+    shop_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    title character varying(500) COLLATE pg_catalog."default" NOT NULL,
+    description character varying(1000) COLLATE pg_catalog."default",
+    business_owner_id uuid NOT NULL,
+    closed boolean NOT NULL DEFAULT false,
+    CONSTRAINT shop_pkey PRIMARY KEY (shop_id),
+    CONSTRAINT shop_business_owner_id_fkey FOREIGN KEY (business_owner_id)
+        REFERENCES public.users (user_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.shop
+    OWNER to db_user;
+
+-- Table: public.product
+
+-- DROP TABLE IF EXISTS public.product;
+
+CREATE TABLE IF NOT EXISTS public.product
+(
+    product_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    shop_id uuid NOT NULL,
+    product_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    price numeric(10,2) NOT NULL,
+    description character varying(100) COLLATE pg_catalog."default",
+    availability boolean NOT NULL DEFAULT true,
+    CONSTRAINT product_pkey PRIMARY KEY (product_id),
+    CONSTRAINT product_shop_id_fkey FOREIGN KEY (shop_id)
+        REFERENCES public.shop (shop_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.product
+    OWNER to db_user;
+
+-- Table: public.cart
+
+-- DROP TABLE IF EXISTS public.cart;
+
+CREATE TABLE IF NOT EXISTS public.cart
+(
+    cart_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    user_id uuid NOT NULL,
+    product_id uuid,
+    quantity integer,
+    product_total_price numeric(10,2),
+    CONSTRAINT cart_pkey PRIMARY KEY (cart_id),
+    CONSTRAINT cart_unique_product_user UNIQUE (product_id, user_id),
+    CONSTRAINT cart_product_id_fkey FOREIGN KEY (product_id)
+        REFERENCES public.product (product_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT cart_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.users (user_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.cart
+    OWNER to db_user;
+
+-- Table: public.checkout
+
+-- DROP TABLE IF EXISTS public.checkout;
+
+CREATE TABLE IF NOT EXISTS public.checkout
+(
+    checkout_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    user_id uuid NOT NULL,
+    product_id uuid NOT NULL,
+    quantity integer NOT NULL,
+    shop_id uuid NOT NULL,
+    total_price numeric(10,2) NOT NULL,
+    checkout_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT checkout_pkey PRIMARY KEY (checkout_id),
+    CONSTRAINT checkout_product_id_fkey FOREIGN KEY (product_id)
+        REFERENCES public.product (product_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT checkout_shop_id_fkey FOREIGN KEY (shop_id)
+        REFERENCES public.shop (shop_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT checkout_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.users (user_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.checkout
+    OWNER to db_user;
+
+-- Table: public.addresses
+
+-- DROP TABLE IF EXISTS public.addresses;
+
+CREATE TABLE IF NOT EXISTS public.addresses
+(
+    address_id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    location character varying(200) COLLATE pg_catalog."default",
+    user_id uuid,
+    shop_id uuid,
+    CONSTRAINT addresses_pkey PRIMARY KEY (address_id),
+    CONSTRAINT addresses_shop_id_fkey FOREIGN KEY (shop_id)
+        REFERENCES public.shop (shop_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT addresses_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.users (user_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.addresses
+    OWNER to db_user;

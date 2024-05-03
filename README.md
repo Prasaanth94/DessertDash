@@ -69,7 +69,7 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 
 1. Run `npm init -y` to initialize the project and create a package.json file
 2. Run `npm i -D nodemon` to allow automatic restart for development purposes
-3. Install all the packages and dependencies `npm i dotenv express express-validator mongoose jsonwebtoken bcrypt uuid cors helmet express-rate-limit`
+3. Install all the packages and dependencies `npm i dotenv express express-validator pg jsonwebtoken bcrypt uuid cors helmet express-rate-limit`
 4. Run `npm i pg` for allow the usage of the raw sql queries to communicate with database.
 5. Create your .env file with the following variables:
 

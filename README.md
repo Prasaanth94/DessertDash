@@ -14,6 +14,8 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 
 # Screenshot
 
+## User/customer Interface
+
 #### Landing page for sign-ups and login
 
 <img src="./ReadmeImg/login.gif">
@@ -30,9 +32,15 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 
 <img src="./ReadmeImg/checkout.gif">
 
-#### Make connections by following your favourite user
+## BuisnessOwner/Shop Interface
 
-<img src="./public/followfeature.gif">
+#### Shop product handling Interface
+
+<img src="./ReadmeImg/buisnessOwner_product.gif">
+
+#### shop Order Handling Interface
+
+<img src="/.ReadmeImg/ordersHandling.gif">
 
 # Technologies Used
 

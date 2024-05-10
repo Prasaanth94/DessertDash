@@ -92,7 +92,14 @@ DB_PASSWORD
 6. Run `npm i jwt-decode` to install jwt-decode
 7. Create your .env file with the following variables:
 
-`VITE_SERVER=http://localhost:5001`
+```
+VITE_SERVER=http://localhost:5001
+VITE_SERVER_OPEN_MAP:http://www/openmap.gov.sg/
+VITE_SERVER_OPEN_MAP_EMAIL: <email used for openmap acc>
+VITE_SERVER_OPEN_MAP_PASSWORD: <password for openmap acc>
+```
+
+
 
 # Next Steps
 

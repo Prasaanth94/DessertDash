@@ -10,6 +10,41 @@ const HomePage = () => {
   const userCtx = useContext(UserContext);
   const [searchShop, setSearchShop] = useState("");
   const [shops, setShops] = useState([]);
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
+  const getLocation = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              success(position);
+              resolve();
+            },
+            (err) => {
+              error(err);
+              reject(`Unable to retrieve location.`);
+            }
+          );
+        }
+      } catch (error) {
+        console.error(error.message);
+        reject(`Error: ${error.message}`);
+      }
+    });
+  };
+
+  const success = (position) => {
+    const latitude = parseFloat(position.coords.latitude);
+    const longitude = parseFloat(position.coords.longitude);
+    setLatitude(latitude);
+    setLongitude(longitude);
+  };
+
+  const error = (err) => {
+    console.error(err.message);
+  };
 
   const handleSearch = (value) => {
     setSearchShop(value);
@@ -39,12 +74,28 @@ const HomePage = () => {
     }
   }, [searchShop]);
 
+  useEffect(() => {
+    getLocation()
+      .then(() => {
+        console.log("Location retrieved successfully.");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const checkLocation = () => {
+    console.log(longitude);
+    console.log(latitude);
+  };
+
   return (
     <>
       <NavBar onSearch={handleSearch}></NavBar>
       <SideBar></SideBar>
       {shops && (
         <>
+          <button onClick={checkLocation}>Check</button>
           {shops.map((shop) => (
             <ShopCard
               key={shop.shop_id}

@@ -10,7 +10,8 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 **Features of DessertDash:**
 
 - Streamlines the ordering process 
-- Users can order desserts online from their favourite shop, discover new dessert palours, 
+- Users can order desserts online from their favourite shop, discover new dessert palours,
+- Implemented User Location. (Next to implement the mechants location to search for nearby vendors)
 
 # Screenshot
 
@@ -99,5 +100,4 @@ DB_PASSWORD
 - Review Section for shops
 - CSS touchups
 - Like/Favourite feature + page which can serve as a reference or bookmark
-- Include geo location for users
 - Include a buisness analasyis page

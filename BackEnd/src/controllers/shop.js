@@ -1,7 +1,18 @@
 const connectDB = require("../db/db");
 
 const createShop = async (req, res) => {
-  const { title, description, location } = req.body;
+  const {
+    title,
+    description,
+    location,
+    postal_code,
+    address,
+    unit,
+    longitude,
+    latitude,
+    X,
+    Y,
+  } = req.body;
   const loggedInId = req.user.id;
 
   if (!title) {
@@ -24,8 +35,18 @@ const createShop = async (req, res) => {
     if (result.rows.length > 0 && result.rows[0].shop_id) {
       const shopId = result.rows[0].shop_id;
 
-      const insertAddressQuery = `INSERT INTO addresses (location, shop_id) VALUES ($1,$2)`;
-      await pool.query(insertAddressQuery, [location, shopId]);
+      const insertAddressQuery = `INSERT INTO addresses (location, shop_id, postal_code, address, unit, longitude,latitude,x ,y) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`;
+      await pool.query(insertAddressQuery, [
+        location,
+        shopId,
+        postal_code,
+        address,
+        unit,
+        longitude,
+        latitude,
+        X,
+        Y,
+      ]);
 
       res.status(200).json({ status: "Success", msg: "Shop Created" });
     } else {

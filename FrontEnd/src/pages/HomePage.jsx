@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import UserContext from "../context/user";
+import OnemapContext from "../context/onemap";
 import useFetch from "../hooks/useFetch";
 import ShopCard from "../components/ShopCard";
 import SideBar from "../components/SideBar";
@@ -8,6 +9,7 @@ import SideBar from "../components/SideBar";
 const HomePage = () => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
+  const onemapCtx = useContext(OnemapContext);
   const [searchShop, setSearchShop] = useState("");
   const [shops, setShops] = useState([]);
   const [latitude, setLatitude] = useState("");
@@ -87,6 +89,7 @@ const HomePage = () => {
   const checkLocation = () => {
     console.log(longitude);
     console.log(latitude);
+    console.log(onemapCtx.onemapAccessToken);
   };
 
   return (

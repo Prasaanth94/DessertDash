@@ -22,6 +22,7 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 <img src="./ReadmeImg/login.gif">
 
 #### Search For Dessert Shops
+##### Search functions returns shops that has the search keyword in it
 
 <img src="./ReadmeImg/search_shop.gif">
 

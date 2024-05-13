@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import UserContext from "../context/user";
+import OnemapContext from "../context/onemap";
 import useFetch from "../hooks/useFetch";
 import ShopCard from "../components/ShopCard";
 import SideBar from "../components/SideBar";
@@ -8,6 +9,7 @@ import SideBar from "../components/SideBar";
 const HomePage = () => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
+  const onemapCtx = useContext(OnemapContext);
   const [searchShop, setSearchShop] = useState("");
   const [shops, setShops] = useState([]);
   const [latitude, setLatitude] = useState("");
@@ -68,6 +70,37 @@ const HomePage = () => {
     }
   };
 
+  const getNearbyShops = async () => {
+    console.log("latitude: ", latitude);
+    console.log("Longitdue: ", longitude);
+    try {
+      const res = await fetchData(
+        "/api/getNearByShop",
+        "POST",
+        {
+          userLongitude: longitude,
+          userLatitude: latitude,
+        },
+        userCtx.accessToken
+      );
+
+      if (!res.ok) {
+        console.log("res:", res);
+        throw new Error("Error getting nearby shops :", res.statusText);
+      }
+      const shops = res.data; // Assuming res.data is an array of shops
+      const detailsArray = shops.map((shop) => shop.details);
+      console.log("nearbyshops: ", shops);
+      setShops(detailsArray);
+    } catch (error) {
+      console.error("Cant find nearyby shops: ", error);
+    }
+  };
+
+  useEffect(() => {
+    getNearbyShops();
+  }, [latitude, longitude]);
+
   useEffect(() => {
     if (searchShop) {
       searchShopByName();
@@ -85,8 +118,10 @@ const HomePage = () => {
   }, []);
 
   const checkLocation = () => {
-    console.log(longitude);
-    console.log(latitude);
+    console.log("Longitude: ", longitude);
+    console.log("Latitude: ", latitude);
+    console.log(onemapCtx.onemapAccessToken);
+    console.log("shop: ", shops);
   };
 
   return (

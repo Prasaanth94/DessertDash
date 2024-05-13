@@ -18,7 +18,7 @@ Say goodbye to dessert dilemmas and hello to sweet satisfaction. Join us today a
 ## User/customer Interface
 
 #### Landing page for sign-ups and login
-
+##### Shop displayed upon login is retrieved using location of user in a 5k radius
 <img src="./ReadmeImg/login.gif">
 
 #### Search For Dessert Shops

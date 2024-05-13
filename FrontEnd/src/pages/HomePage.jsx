@@ -70,6 +70,37 @@ const HomePage = () => {
     }
   };
 
+  const getNearbyShops = async () => {
+    console.log("latitude: ", latitude);
+    console.log("Longitdue: ", longitude);
+    try {
+      const res = await fetchData(
+        "/api/getNearByShop",
+        "POST",
+        {
+          userLongitude: longitude,
+          userLatitude: latitude,
+        },
+        userCtx.accessToken
+      );
+
+      if (!res.ok) {
+        console.log("res:", res);
+        throw new Error("Error getting nearby shops :", res.statusText);
+      }
+      const shops = res.data; // Assuming res.data is an array of shops
+      const detailsArray = shops.map((shop) => shop.details);
+      console.log("nearbyshops: ", shops);
+      setShops(detailsArray);
+    } catch (error) {
+      console.error("Cant find nearyby shops: ", error);
+    }
+  };
+
+  useEffect(() => {
+    getNearbyShops();
+  }, [latitude, longitude]);
+
   useEffect(() => {
     if (searchShop) {
       searchShopByName();
@@ -87,9 +118,10 @@ const HomePage = () => {
   }, []);
 
   const checkLocation = () => {
-    console.log(longitude);
-    console.log(latitude);
+    console.log("Longitude: ", longitude);
+    console.log("Latitude: ", latitude);
     console.log(onemapCtx.onemapAccessToken);
+    console.log("shop: ", shops);
   };
 
   return (

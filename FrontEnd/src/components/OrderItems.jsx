@@ -6,7 +6,7 @@ import UserContext from "../context/user";
 const OrderItems = ({ orders, role, getOrderByShopId, shopId }) => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
-
+  console.log("orderItems: ", orders);
   const orderCollected = async (product_id) => {
     try {
       const res = await fetchData(
@@ -42,9 +42,8 @@ const OrderItems = ({ orders, role, getOrderByShopId, shopId }) => {
       {role === 2 &&
         orders.map((order, index) => (
           <div className={styles.productContainer} key={index}>
-            <div>{order.user.username}</div>
-            <div>{order.product.product_name}</div>
-            <div>${order.product.price}</div>
+            <div>{order.productName}</div>
+            <div>${order.price}</div>
             <div>{order.quantity}</div>
             <div>{order.total_price}</div>
             <div>{new Date(order.checkout_date).toLocaleString()}</div>

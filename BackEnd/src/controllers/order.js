@@ -115,51 +115,61 @@ const getOwnerOrder = async (req, res) => {
   const { shop_id } = req.params;
 
   try {
-    console.log("shopid: ", shop_id);
+    console.log("Fetching orders for shop_id:", shop_id);
     const pool = await connectDB();
 
-    // Query to retrieve orders for the user
+    // Query to retrieve orders for the shop
     const getUserOrderQuery = `SELECT * FROM checkout WHERE shop_id = $1`;
     const { rows: orders } = await pool.query(getUserOrderQuery, [shop_id]);
 
     if (orders.length === 0) {
+      console.log("No orders found for shop_id:", shop_id);
       return res.status(400).json({ status: "error", msg: "No orders found" });
     }
 
-    // Extracting product IDs from orders
+    const userIds = orders.map((order) => order.user_id);
     const productIds = orders.map((order) => order.product_id);
 
-    // Query to retrieve products for the obtained product IDs
-    const getProductQuery = `SELECT * FROM product WHERE product_id IN (${productIds
-      .map((_, index) => `$${index + 1}`)
-      .join(",")})`;
-    const { rows: products } = await pool.query(getProductQuery, productIds);
+    console.log("Fetched orders:", orders);
 
-    const userIds = orders.map((order) => order.user_id);
-
-    // Query to retrieve users for the obtained user IDs
-    const getUserQuery = `SELECT * FROM users WHERE user_id IN (${userIds
+    // Query to retrieve users
+    const getUserQuery = `SELECT user_id, username FROM users WHERE user_id IN (${userIds
       .map((_, index) => `$${index + 1}`)
       .join(",")})`;
     const { rows: users } = await pool.query(getUserQuery, userIds);
-    console.log({ users });
+    const userNameMap = users.reduce((acc, user) => {
+      acc[user.user_id] = user.username;
+      return acc;
+    }, {});
 
-    // Mapping products to their respective orders and adding shop details
-    const ordersWithProductsAndUsers = orders.map((order) => {
-      const product = products.find(
-        (product) => product.product_id === order.product_id
-      );
-      const user = users.find((user) => user.user_id === order.user_id);
-      return {
-        ...order,
-        product,
-        user,
-      };
-    });
+    console.log("Fetched users:", users);
 
-    res
-      .status(200)
-      .json({ status: "success", data: ordersWithProductsAndUsers });
+    // Query to retrieve products
+    const getProductQuery = `SELECT product_id, product_name, price FROM product WHERE product_id IN (${productIds
+      .map((_, index) => `$${index + 1}`)
+      .join(",")})`;
+    const { rows: products } = await pool.query(getProductQuery, productIds);
+    const productNameMap = products.reduce((acc, product) => {
+      acc[product.product_id] = product.product_name; // Changed to product_name
+      return acc;
+    }, {});
+
+    console.log("Fetched products:", products);
+
+    // Group orders by user name and include product details
+    const groupedOrders = orders.reduce((acc, order) => {
+      const userName = userNameMap[order.user_id] || "Unknown";
+      const productName = productNameMap[order.product_id] || "Unknown";
+      if (!acc[userName]) {
+        acc[userName] = [];
+      }
+      acc[userName].push({ ...order, productName });
+      return acc;
+    }, {});
+
+    console.log("Grouped orders with product details:", groupedOrders);
+
+    res.status(200).json({ status: "success", data: groupedOrders });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ status: "error", msg: "Internal server error" });

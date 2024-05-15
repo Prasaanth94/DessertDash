@@ -76,7 +76,7 @@ const OrdersPage = () => {
       if (!res.ok) {
         throw new Error("error :", res.statusText);
       }
-
+      console.log("res.data: ", res.data.data);
       setOrders(res.data.data);
     } catch (error) {
       console.error("Cant get orders :", error);
@@ -98,17 +98,43 @@ const OrdersPage = () => {
 
   return (
     <>
-      <NavBar></NavBar>
-      <SideBar></SideBar>
-      {orders.length === 0 ? (
-        <div className={styles.noOrder}>No Orders</div>
+      <NavBar />
+      <SideBar />
+      {role === 1 ? (
+        <>
+          {orders.length === 0 ? (
+            <div className={styles.noOrder}>No Orders</div>
+          ) : (
+            <OrderItems
+              orders={orders}
+              role={role}
+              getOrderByShopId={getOrderByShopId}
+              shopId={shop.shop_id}
+            />
+          )}
+        </>
       ) : (
-        <OrderItems
-          orders={orders}
-          role={role}
-          getOrderByShopId={getOrderByShopId}
-          shopId={shop.shop_id}
-        ></OrderItems>
+        <>
+          {Object.keys(orders).length === 0 ? (
+            <div className={styles.noOrder}>No Orders</div>
+          ) : (
+            <div className={styles.centeredContent}>
+              <>
+                {Object.keys(orders).map((userId) => (
+                  <div key={userId} className={styles.orderReceipt}>
+                    <h2>User: {userId}</h2>
+                    <OrderItems
+                      orders={orders[userId]}
+                      role={role}
+                      getOrderByShopId={getOrderByShopId}
+                      shopId={shop.shop_id}
+                    />
+                  </div>
+                ))}
+              </>
+            </div>
+          )}
+        </>
       )}
     </>
   );

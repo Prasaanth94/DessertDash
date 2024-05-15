@@ -3,3 +3,18 @@
   font-size: 3rem;
   margin-top: 50px;
 }
+
+.orderReceipt {
+  text-align: center;
+  border: 3px solid black;
+  border-radius: 30px;
+  margin: 10px 0px;
+  width: 60%;
+}
+
+.centeredContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

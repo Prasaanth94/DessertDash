@@ -6,7 +6,6 @@ import UserContext from "../context/user";
 const OrderItems = ({ orders, role, getOrderByShopId, shopId }) => {
   const fetchData = useFetch();
   const userCtx = useContext(UserContext);
-  console.log("orderItems: ", orders);
   const orderCollected = async (product_id) => {
     try {
       const res = await fetchData(

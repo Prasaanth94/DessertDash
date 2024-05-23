@@ -122,13 +122,14 @@ const OrdersPage = () => {
               <>
                 {Object.keys(orders).map((userId) => (
                   <div key={userId} className={styles.orderReceipt}>
-                    <h2>User: {userId}</h2>
+                    <h2>Customer: {userId}</h2>
                     <OrderItems
                       orders={orders[userId]}
                       role={role}
                       getOrderByShopId={getOrderByShopId}
                       shopId={shop.shop_id}
                     />
+                    <button>Collected</button>
                   </div>
                 ))}
               </>

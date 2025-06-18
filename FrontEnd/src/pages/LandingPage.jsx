@@ -37,7 +37,7 @@ const LandingPage = () => {
             <>
               <RegisterForm></RegisterForm>
               <p className={styles.clickToReg} onClick={handleForm}>
-                Already got an account? Login here!
+                Already have an account? Login here!
               </p>
             </>
           )}
